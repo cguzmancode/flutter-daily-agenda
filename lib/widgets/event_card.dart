@@ -15,37 +15,26 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundImage: NetworkImage(child.imageUrl),
+      child: ListTile(
+        leading: CircleAvatar(
+          child: Image.network(
+            child.imageUrl,
+            width: 48,
+            height: 48,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => const Icon(
+              Icons.person_outline,
+              size: 48,
+              color: Colors.grey,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    child.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    event.time.toString(),
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(event.description),
-                ],
-              ),
-            ),
-          ],
+          ),
+        ),
+        title: Text(event.category),
+        subtitle: Text('${child.name} - ${event.description}'),
+        trailing: Text(
+          event.time.toString(),
+          style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
       ),
     );

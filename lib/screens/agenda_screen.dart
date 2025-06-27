@@ -36,18 +36,24 @@ class AgendaScreen extends StatelessWidget {
             const SizedBox(height: 12),
             BlocBuilder<AgendaCubit, AgendaState>(
               builder: (context, state) {
+                final selectedValue = mockChildren.any((c) =>
+                c.id == state.selectedChildId)
+                    ? state.selectedChildId
+                    : '';
+
                 return DropdownButton<String>(
-                  value: state.selectedChildId,
+                  value: selectedValue,
                   isExpanded: true,
                   items: [
                     const DropdownMenuItem<String>(
                       value: '',
                       child: Text('All children'),
                     ),
-                    ...mockChildren.map((child) => DropdownMenuItem<String>(
-                      value: child.id,
-                      child: Text(child.name),
-                    )),
+                    ...mockChildren.map((child) =>
+                        DropdownMenuItem<String>(
+                          value: child.id,
+                          child: Text(child.name),
+                        )),
                   ],
                   onChanged: (value) {
                     if (value == null) return;
@@ -74,26 +80,27 @@ class AgendaScreen extends StatelessWidget {
                       final category = categories[index];
                       final isSelected = category == state.selectedCategory;
                       return GestureDetector(
+                        key: Key('category_button_$category'),
                         onTap: () {
                           context.read<AgendaCubit>().selectCategory(
                             isSelected ? null : category,
                           );
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding:
+                          const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected
-                                ? Colors.blueAccent
-                                : Colors.grey[300],
+                            color: isSelected ? Colors.blueAccent : Colors
+                                .grey[300],
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Center(
                             child: Text(
                               category,
                               style: TextStyle(
-                                color:
-                                isSelected ? Colors.white : Colors.black87,
+                                color: isSelected ? Colors.white : Colors
+                                    .black87,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -109,7 +116,9 @@ class AgendaScreen extends StatelessWidget {
             Expanded(
               child: BlocBuilder<AgendaCubit, AgendaState>(
                 builder: (context, state) {
-                  final filteredEvents = context.read<AgendaCubit>().getFilteredEvents();
+                  final filteredEvents = context
+                      .read<AgendaCubit>()
+                      .getFilteredEvents();
 
                   if (filteredEvents.isEmpty) {
                     return const Center(child: Text('No events found.'));
@@ -119,8 +128,8 @@ class AgendaScreen extends StatelessWidget {
                     itemCount: filteredEvents.length,
                     itemBuilder: (context, index) {
                       final event = filteredEvents[index];
-                      final child = mockChildren
-                          .firstWhere((c) => c.id == event.childId);
+                      final child =
+                      mockChildren.firstWhere((c) => c.id == event.childId);
                       return EventCard(child: child, event: event);
                     },
                   );
@@ -132,4 +141,5 @@ class AgendaScreen extends StatelessWidget {
       ),
     );
   }
+
 }
