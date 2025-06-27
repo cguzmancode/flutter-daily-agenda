@@ -7,7 +7,7 @@ class AgendaCubit extends Cubit<AgendaState> {
   AgendaCubit() : super(const AgendaState());
 
   void selectChild(String? childId) {
-    emit(state.copyWith(selectedChildId: childId));
+    emit(state.copyWith(selectedChildId: childId ?? ''));
   }
 
   void selectCategory(String? category) {
@@ -17,7 +17,6 @@ class AgendaCubit extends Cubit<AgendaState> {
   List<Event> getFilteredEvents() {
     return mockEvents.where((event) {
       final matchesChild =
-          state.selectedChildId == null ||
           event.childId == state.selectedChildId;
       final matchesCategory =
           state.selectedCategory == null ||

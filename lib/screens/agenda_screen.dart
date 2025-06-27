@@ -1,6 +1,5 @@
 import 'package:daily_agenda/cubit/agenda_cubit.dart';
 import 'package:daily_agenda/cubit/agenda_state.dart';
-import 'package:daily_agenda/models/child.dart';
 import 'package:daily_agenda/widgets/event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,20 +39,18 @@ class AgendaScreen extends StatelessWidget {
                 return DropdownButton<String>(
                   value: state.selectedChildId,
                   isExpanded: true,
-                  hint: const Text('Select a child'),
                   items: [
                     const DropdownMenuItem<String>(
-                      value: null,
+                      value: '',
                       child: Text('All children'),
                     ),
-                    ...mockChildren.map((Child child) {
-                      return DropdownMenuItem<String>(
-                        value: child.id,
-                        child: Text(child.name),
-                      );
-                    }),
+                    ...mockChildren.map((child) => DropdownMenuItem<String>(
+                      value: child.id,
+                      child: Text(child.name),
+                    )),
                   ],
-                  onChanged: (String? value) {
+                  onChanged: (value) {
+                    if (value == null) return;  // safety
                     context.read<AgendaCubit>().selectChild(value);
                   },
                 );
@@ -86,16 +83,17 @@ class AgendaScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.blueAccent : Colors
-                                .grey[300],
+                            color: isSelected
+                                ? Colors.blueAccent
+                                : Colors.grey[300],
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Center(
                             child: Text(
                               category,
                               style: TextStyle(
-                                color: isSelected ? Colors.white : Colors
-                                    .black87,
+                                color:
+                                isSelected ? Colors.white : Colors.black87,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -112,8 +110,9 @@ class AgendaScreen extends StatelessWidget {
               child: BlocBuilder<AgendaCubit, AgendaState>(
                 builder: (context, state) {
                   final filteredEvents = mockEvents.where((event) {
-                    final matchesChild = state.selectedChildId == null || event.childId == state.selectedChildId;
-                    final matchesCategory = state.selectedCategory == null || event.category == state.selectedCategory;
+                    final matchesChild = state.selectedChildId.isEmpty || event.childId == state.selectedChildId;
+                    final matchesCategory =
+                        state.selectedCategory == null || event.category == state.selectedCategory;
                     return matchesChild && matchesCategory;
                   }).toList();
 
@@ -125,7 +124,8 @@ class AgendaScreen extends StatelessWidget {
                     itemCount: filteredEvents.length,
                     itemBuilder: (context, index) {
                       final event = filteredEvents[index];
-                      final child = mockChildren.firstWhere((c) => c.id == event.childId);
+                      final child = mockChildren
+                          .firstWhere((c) => c.id == event.childId);
                       return EventCard(child: child, event: event);
                     },
                   );

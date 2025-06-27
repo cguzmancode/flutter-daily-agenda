@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class AgendaState extends Equatable {
-  final String? selectedChildId;
+  final String selectedChildId;
   final String? selectedCategory;
 
-  const AgendaState({this.selectedChildId, this.selectedCategory});
+  const AgendaState({this.selectedChildId= '', this.selectedCategory});
 
   AgendaState copyWith({String? selectedChildId, String? selectedCategory}) {
     return AgendaState(
