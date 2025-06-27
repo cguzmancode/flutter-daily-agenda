@@ -50,7 +50,7 @@ class AgendaScreen extends StatelessWidget {
                     )),
                   ],
                   onChanged: (value) {
-                    if (value == null) return;  // safety
+                    if (value == null) return;
                     context.read<AgendaCubit>().selectChild(value);
                   },
                 );
@@ -109,12 +109,7 @@ class AgendaScreen extends StatelessWidget {
             Expanded(
               child: BlocBuilder<AgendaCubit, AgendaState>(
                 builder: (context, state) {
-                  final filteredEvents = mockEvents.where((event) {
-                    final matchesChild = state.selectedChildId.isEmpty || event.childId == state.selectedChildId;
-                    final matchesCategory =
-                        state.selectedCategory == null || event.category == state.selectedCategory;
-                    return matchesChild && matchesCategory;
-                  }).toList();
+                  final filteredEvents = context.read<AgendaCubit>().getFilteredEvents();
 
                   if (filteredEvents.isEmpty) {
                     return const Center(child: Text('No events found.'));

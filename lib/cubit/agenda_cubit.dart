@@ -11,16 +11,17 @@ class AgendaCubit extends Cubit<AgendaState> {
   }
 
   void selectCategory(String? category) {
-    emit(state.copyWith(selectedCategory: category));
+    if (category == null) {
+      emit(state.copyWith(resetCategory: true));
+    } else {
+      emit(state.copyWith(selectedCategory: category));
+    }
   }
 
   List<Event> getFilteredEvents() {
     return mockEvents.where((event) {
-      final matchesChild =
-          event.childId == state.selectedChildId;
-      final matchesCategory =
-          state.selectedCategory == null ||
-          event.category == state.selectedCategory;
+      final matchesChild = state.selectedChildId.isEmpty || event.childId == state.selectedChildId;
+      final matchesCategory = state.selectedCategory == null || event.category == state.selectedCategory;
       return matchesChild && matchesCategory;
     }).toList();
   }

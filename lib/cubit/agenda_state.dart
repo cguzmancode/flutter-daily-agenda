@@ -6,10 +6,10 @@ class AgendaState extends Equatable {
 
   const AgendaState({this.selectedChildId= '', this.selectedCategory});
 
-  AgendaState copyWith({String? selectedChildId, String? selectedCategory}) {
+  AgendaState copyWith({String? selectedChildId, String? selectedCategory, bool resetCategory = false}) {
     return AgendaState(
       selectedChildId: selectedChildId ?? this.selectedChildId,
-      selectedCategory: selectedCategory ?? this.selectedCategory,
+      selectedCategory: resetCategory ? null : (selectedCategory ?? this.selectedCategory),
     );
   }
 
