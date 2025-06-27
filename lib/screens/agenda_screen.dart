@@ -1,6 +1,7 @@
 import 'package:daily_agenda/cubit/agenda_cubit.dart';
 import 'package:daily_agenda/cubit/agenda_state.dart';
 import 'package:daily_agenda/models/child.dart';
+import 'package:daily_agenda/widgets/event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -101,6 +102,31 @@ class AgendaScreen extends StatelessWidget {
                           ),
                         ),
                       );
+                    },
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: BlocBuilder<AgendaCubit, AgendaState>(
+                builder: (context, state) {
+                  final filteredEvents = mockEvents.where((event) {
+                    final matchesChild = state.selectedChildId == null || event.childId == state.selectedChildId;
+                    final matchesCategory = state.selectedCategory == null || event.category == state.selectedCategory;
+                    return matchesChild && matchesCategory;
+                  }).toList();
+
+                  if (filteredEvents.isEmpty) {
+                    return const Center(child: Text('No events found.'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: filteredEvents.length,
+                    itemBuilder: (context, index) {
+                      final event = filteredEvents[index];
+                      final child = mockChildren.firstWhere((c) => c.id == event.childId);
+                      return EventCard(child: child, event: event);
                     },
                   );
                 },
