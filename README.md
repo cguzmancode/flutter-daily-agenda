@@ -87,7 +87,15 @@ flutter test
 
 ---
 
-## Optional
+##  Preview
+
+### Screenshot
+
+![App Screenshot](assets/screenshot_daily_agenda.png)
+
+### Demo (GIF)
+
+![App Demo](assets/Screen_recording_daily_agenda.gif)
 
 
 ---
