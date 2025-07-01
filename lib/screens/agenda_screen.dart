@@ -16,8 +16,31 @@ class AgendaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Daily Agenda'),
-          backgroundColor: Colors.blueAccent),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1,
+        centerTitle: false,
+        title: const Text(
+          'Daily Agenda',
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://randomuser.me/api/portraits/men/75.jpg'),
+              radius: 18,
+            ),
+          ),
+        ],
+        iconTheme: const IconThemeData(color: Colors.black87),
+      ),
+
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth > 600) {

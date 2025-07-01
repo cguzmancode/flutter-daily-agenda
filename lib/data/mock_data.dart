@@ -36,4 +36,18 @@ final List<Event> mockEvents = [
     description: 'Did finger painting in class',
     time: DateTime.now().subtract(const Duration(hours: 3)),
   ),
+  Event(
+    id: 'e4',
+    childId: '1',
+    category: 'Diapers',
+    description: 'Changed diaper before nap',
+    time: DateTime.now().subtract(const Duration(hours: 1, minutes: 30)),
+  ),
+  Event(
+    id: 'e5',
+    childId: '1',
+    category: 'Notes',
+    description: 'Pediatrician appointment next week',
+    time: DateTime.now(),
+  ),
 ];
